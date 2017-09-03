@@ -6,9 +6,9 @@ MiniTest::Reporters.use!
 
 class IdiomTest < Minitest::Test
 
-  def customer_book_operation_with_parameter_takes_less_than_x_milliseconds?(customer, operation, parameter, x)
+  def customer_book_operation_takes_less_than_x_milliseconds?(customer, operation, parameters, x)
     millisecondsBeforeRunning = Time.now
-    customer.send(operation, parameter)
+    customer.send(operation, *parameters)
     millisecondsAfterRunning = Time.now
     (millisecondsAfterRunning-millisecondsBeforeRunning) < x
   end
@@ -23,7 +23,7 @@ class IdiomTest < Minitest::Test
     #
     # assert (millisecondsAfterRunning-millisecondsBeforeRunning) < 50
 
-    assert customer_book_operation_with_parameter_takes_less_than_x_milliseconds?(CustomerBook.new, :add_customer_named, "John Lenon", 50)
+    assert customer_book_operation_takes_less_than_x_milliseconds?(CustomerBook.new, :add_customer_named, ["John Lenon"], 50)
   end
 
   def  test_02_removing_a_customer_should_not_take_more_than_100_milliseconds
@@ -36,7 +36,7 @@ class IdiomTest < Minitest::Test
     # millisecondsAfterRunning = Time.now
     #
     # assert (millisecondsAfterRunning-millisecondsBeforeRunning) < 100
-    assert customer_book_operation_with_parameter_takes_less_than_x_milliseconds?(customerBook, :remove_customer_named, "Paul McCartney", 100)
+    assert customer_book_operation_takes_less_than_x_milliseconds?(customerBook, :remove_customer_named, ["Paul McCartney"], 100)
   end
 
   def test_03_can_not_add_a_customer_with_emtpy_name
