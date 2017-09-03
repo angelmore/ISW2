@@ -39,29 +39,56 @@ class IdiomTest < Minitest::Test
     assert customer_book_operation_takes_less_than_x_milliseconds?(customerBook, :remove_customer_named, ["Paul McCartney"], 100)
   end
 
-  def test_03_can_not_add_a_customer_with_emtpy_name
+  def verifies_exception_message? (anException, exception_message)
+    anException.message == exception_message
+  end
+
+  def verifies_customer_book_conditions? (customer_book, customer_book_conditions)
+    customer_book_conditions.all? { |key, val| customer_book.send(key) == val }
+  end
+
+  def customer_book_verifies_exception_message_and_conditions?(customer_book_message, exception_message, customer_book_conditions)
     customerBook = CustomerBook.new
 
     begin
-      customerBook.add_customer_named ""
+      customerBook.send *customer_book_message
       self.fail
     rescue Exception => anException
-      assert_equal CustomerBook.customer_name_can_not_be_empty_error_description, anException.message
-      assert customerBook.empty?
+      verifies_exception_message?(anException, exception_message) && verifies_customer_book_conditions?(customerBook, customer_book_conditions)
     end
+  end
+
+  def test_03_can_not_add_a_customer_with_emtpy_name
+    # customerBook = CustomerBook.new
+    #
+    # begin
+    #   customerBook.add_customer_named ""
+    #   self.fail
+    # rescue Exception => anException
+    #   assert_equal CustomerBook.customer_name_can_not_be_empty_error_description, anException.message
+    #   assert customerBook.empty?
+    # end
+
+    customer_book_message = [:add_customer_named, ""]
+    exception_message = CustomerBook.customer_name_can_not_be_empty_error_description
+    customer_book_conditions = { empty?: true }
+    assert customer_book_verifies_exception_message_and_conditions?(customer_book_message, exception_message, customer_book_conditions)
 
   end
 
   def test_04_can_not_remove_not_added_customer
 
-    customerBook = CustomerBook.new
+    # customerBook = CustomerBook.new
+    #
+    # begin
+    #   customerBook.remove_customer_named "John Lennon"
+    #   self.fail
+    # rescue Exception => anException
+    #   assert_equal CustomerBook.customer_does_not_exist_error_description, anException.message
+    # end
 
-    begin
-      customerBook.remove_customer_named "John Lennon"
-      self.fail
-    rescue Exception => anException
-      assert_equal CustomerBook.customer_does_not_exist_error_description, anException.message
-    end
-
+    customer_book_message = [:remove_customer_named, ""]
+    exception_message = CustomerBook.customer_does_not_exist_error_description
+    assert customer_book_verifies_exception_message_and_conditions?(customer_book_message, exception_message, {})
   end
 end
