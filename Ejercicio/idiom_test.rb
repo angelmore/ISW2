@@ -24,7 +24,7 @@ class IdiomTest < Minitest::Test
     assert customer_book_operation_takes_less_than_x_milliseconds?(customerBook, :remove_customer_named, ["Paul McCartney"], 100)
   end
 
-  def customer_book_verifies_exception_message_and_conditions?(customer_book_message)
+  def customer_book_verifies_exception_and_condition?(customer_book_message)
     customer_book = CustomerBook.new
 
     begin
@@ -36,14 +36,14 @@ class IdiomTest < Minitest::Test
   end
 
   def test_03_can_not_add_a_customer_with_emtpy_name
-    customer_book_verifies_exception_message_and_conditions?([:add_customer_named, ""]) do |customer_book, anException|
+    customer_book_verifies_exception_and_condition?([:add_customer_named, ""]) do |customer_book, anException|
       assert_equal CustomerBook.customer_name_can_not_be_empty_error_description, anException.message
       assert customer_book.empty?
     end
   end
 
   def test_04_can_not_remove_not_added_customer
-    customer_book_verifies_exception_message_and_conditions?([:remove_customer_named, ""]) do |customer_book, anException|
+    customer_book_verifies_exception_and_condition?([:remove_customer_named, ""]) do |customer_book, anException|
       assert_equal CustomerBook.customer_does_not_exist_error_description, anException.message
     end
   end
