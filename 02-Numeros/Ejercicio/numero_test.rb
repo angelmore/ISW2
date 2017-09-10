@@ -115,68 +115,68 @@ class NumberTest < Minitest::Test
     assert_equal @cincoMedios,@uno/@dosQuintos
   end
 
-  # def test_14_divide_fracciones_por_enteros_correctamente
-  #   assert_equal @dosVeinticincoavos,@dosQuintos/@cinco
-  # end
+   def test_14_divide_fracciones_por_enteros_correctamente
+     assert_equal @dosVeinticincoavos,@dosQuintos/@cinco
+   end
   #
   # #
   # # Ahora si empezamos con problemas de reducción de fracciones
   # #
-  # def test_15_fracciones_pueden_ser_iguales_a_enteros
-  #   assert_equal @dos,@cuatroMedios
-  # end
+   def test_15_fracciones_pueden_ser_iguales_a_enteros
+     assert_equal @dos,@cuatroMedios
+   end
   #
-  # def test_16_las_fracciones_aparentes_son_iguales
-  #   assert_equal @unMedio,@dosCuartos
-  #   #
-  #   # Las fracciones se reducen utilizando el maximo comun divisor (mcd)
-  #   # Por lo tanto, para a/b, sea c = mcd (a,b) => a/b reducida es:
-  #   # (a/c) / (b/c).
-  #   #
-  #   # Por ejemplo: a/b = 2/4 entonces c = 2. Por lo tanto 2/4 reducida es:
-  #   # (2/2) / (4/2) = 1/2
-  #   #
-  #   # Para obtener el mcd pueden usar el algoritmo de Euclides que es:
-  #   #
-  #   # mcd (a,b) =
-  #   # 		si b = 0 --> a
-  #   # 		si b != 0 -->mcd(b, restoDeDividir(a,b))
-  #   #
-  #   # Ejemplo:
-  #   # mcd(2,4) ->
-  #   # mcd(4,restoDeDividir(2,4)) ->
-  #   # mcd(4,2) ->
-  #   # mcd(2,restoDeDividir(4,2)) ->
-  #   # mcd(2,0) ->
-  #   # 2
-  #   #
-  # end
+   def test_16_las_fracciones_aparentes_son_iguales
+     assert_equal @unMedio,@dosCuartos
+     #
+     # Las fracciones se reducen utilizando el maximo comun divisor (mcd)
+     # Por lo tanto, para a/b, sea c = mcd (a,b) => a/b reducida es:
+     # (a/c) / (b/c).
+     #
+     # Por ejemplo: a/b = 2/4 entonces c = 2. Por lo tanto 2/4 reducida es:
+     # (2/2) / (4/2) = 1/2
+     #
+     # Para obtener el mcd pueden usar el algoritmo de Euclides que es:
+     #
+     # mcd (a,b) =
+     #    si b = 0 --> a
+     #    si b != 0 -->mcd(b, restoDeDividir(a,b))
+     #
+     # Ejemplo:
+     # mcd(2,4) ->
+     # mcd(4,restoDeDividir(2,4)) ->
+     # mcd(4,2) ->
+     # mcd(2,restoDeDividir(4,2)) ->
+     # mcd(2,0) ->
+     # 2
+     #
+   end
   #
-  # def test_17_la_suma_de_fracciones_puede_dar_entero
-  #   assert_equal @uno,@unMedio+@unMedio
-  # end
+   def test_17_la_suma_de_fracciones_puede_dar_entero
+     assert_equal @uno,@unMedio+@unMedio
+   end
   #
-  # def test_18_la_multiplicacion_de_enteros_y_fracciones_puede_dar_entero
-  #   assert_equal @dos,@cuatro*@unMedio
-  # end
+   def test_18_la_multiplicacion_de_enteros_y_fracciones_puede_dar_entero
+     assert_equal @dos,@cuatro*@unMedio
+   end
   #
-  # def test_19_la_division_de_enteros_puede_dar_fraccion
-  #   assert_equal @unMedio, @dos/@cuatro
-  # end
+   def test_19_la_division_de_enteros_puede_dar_fraccion
+     assert_equal @unMedio, @dos/@cuatro
+   end
   #
-  # def test_20_la_division_de_fracciones_puede_dar_entero
-  #   assert_equal @uno, @unMedio/@unMedio
-  # end
+   def test_20_la_division_de_fracciones_puede_dar_entero
+     assert_equal @uno, @unMedio/@unMedio
+   end
   #
-  # def test_21_no_se_puede_dividir_enteros_por_cero
-  #   assert_raises ZeroDivisionError do
-  #     @uno/@cero
-  #   end
-  # end
+   def test_21_no_se_puede_dividir_enteros_por_cero
+     assert_raises ZeroDivisionError do
+       @uno/@cero
+     end
+   end
   #
-  # def test_22_no_se_puede_dividir_fracciones_por_cero
-  #   assert_raises ZeroDivisionError do
-  #     @unQuinto/@cero
-  #   end
-  # end
+   def test_22_no_se_puede_dividir_fracciones_por_cero
+     assert_raises ZeroDivisionError do
+       @unQuinto/@cero
+     end
+   end
 end

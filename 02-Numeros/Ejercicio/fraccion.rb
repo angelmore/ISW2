@@ -53,7 +53,11 @@ class Fraccion < Numero
 
   def /(un_divisor)
     un_dividendo = self
-    (un_dividendo.numerador*un_divisor.denominador)/(un_dividendo.denominador*un_divisor.numerador)
+    if un_divisor.class == Fraccion
+      Fraccion.dividir (un_dividendo.numerador*un_divisor.denominador), (un_dividendo.denominador*un_divisor.numerador)
+    elsif un_divisor.class == Entero
+      Fraccion.dividir numerador, (denominador*un_divisor)
+    end
   end
 
   def self.dividir(un_dividendo,un_divisor)
