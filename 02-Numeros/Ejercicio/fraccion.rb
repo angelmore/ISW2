@@ -35,12 +35,16 @@ class Fraccion < Numero
     @numerador.hash
   end
 
+  def sumar_con_entero(sumando_entero)
+    sumar_fraccion_con_entero(self, sumando_entero)
+  end
+
+  def sumar_con_fraccion(sumando_fraccion)
+    (numerador*sumando_fraccion.denominador+denominador*sumando_fraccion.numerador)/(denominador*sumando_fraccion.denominador)
+  end
+
   def +(un_sumando)
-    if un_sumando.class == Fraccion
-      (numerador*un_sumando.denominador+denominador*un_sumando.numerador)/(denominador*un_sumando.denominador)
-    elsif un_sumando.class == Entero
-      Fraccion.dividir (numerador + un_sumando * denominador), denominador
-    end
+    un_sumando.sumar_con_fraccion self
   end
 
   def *(un_multiplicador)

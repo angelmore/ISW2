@@ -1,4 +1,4 @@
-require './numero'
+  require './numero'
 
 class Entero < Numero
 
@@ -26,14 +26,16 @@ class Entero < Numero
     @value.hash
   end
 
+  def sumar_con_fraccion(sumando_fraccion)
+    sumar_fraccion_con_entero(sumando_fraccion, self)
+  end
+
+  def sumar_con_entero(sumando_entero)
+    Entero.new @value+sumando_entero.value
+  end
+
   def +(un_sumando)
-    if un_sumando.class == Entero
-      Entero.new @value+un_sumando.value
-    elsif un_sumando.class == Fraccion
-        numerador = Entero.new (un_sumando.numerador.value + value * un_sumando.denominador.value)
-        denominador = un_sumando.denominador
-        Fraccion.dividir numerador, denominador
-    end
+    un_sumando.sumar_con_entero self
   end
 
   def *(un_multiplicador)

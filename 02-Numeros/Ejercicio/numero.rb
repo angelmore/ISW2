@@ -24,4 +24,8 @@ class Numero
     self.subclass_responsibility
   end
 
+  def sumar_fraccion_con_entero(a, b)
+    Fraccion.dividir (a.numerador + b * a.denominador), a.denominador
+  end
+
 end
