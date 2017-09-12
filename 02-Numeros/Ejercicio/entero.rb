@@ -27,7 +27,7 @@ class Entero < Numero
   end
 
   def sumar_con_fraccion(sumando_fraccion)
-    sumar_fraccion_con_entero(sumando_fraccion, self)
+    sumando_fraccion.sumar_con_entero self
   end
 
   def sumar_con_entero(sumando_entero)
@@ -38,21 +38,28 @@ class Entero < Numero
     un_sumando.sumar_con_entero self
   end
 
+  def multiplicar_con_fraccion(un_multiplicador)
+  	un_multiplicador.multiplicar_con_entero self
+  end
+
+  def multiplicar_con_entero(un_multiplicador)
+  	Entero.new @value*un_multiplicador.value
+  end
+
   def *(un_multiplicador)
-    if un_multiplicador.class == Entero
-      Entero.new @value*un_multiplicador.value
-    elsif un_multiplicador.class == Fraccion
-      Fraccion.dividir (un_multiplicador.numerador * self), un_multiplicador.denominador
-    end
+    un_multiplicador.multiplicar_con_entero self
+  end
+
+  def dividir_con_fraccion(un_dividendo)
+  	Fraccion.dividir un_dividendo.numerador, self*un_dividendo.denominador
+  end
+
+  def dividir_con_entero(un_dividendo)
+      Fraccion.dividir un_dividendo, self
   end
 
   def /(un_divisor)
-    if un_divisor.class == Entero
-      unDividendo = self
-      Fraccion.dividir unDividendo,un_divisor
-    elsif un_divisor.class == Fraccion
-      Fraccion.dividir (self * un_divisor.denominador), un_divisor.numerador
-    end
+    un_divisor.dividir_con_entero self #paso el entero (el dividendo)
   end
 
   def maximo_comun_divisor_con(otro_entero)

@@ -36,7 +36,7 @@ class Fraccion < Numero
   end
 
   def sumar_con_entero(sumando_entero)
-    sumar_fraccion_con_entero(self, sumando_entero)
+    Fraccion.dividir (self.numerador + sumando_entero * self.denominador), self.denominador
   end
 
   def sumar_con_fraccion(sumando_fraccion)
@@ -47,21 +47,29 @@ class Fraccion < Numero
     un_sumando.sumar_con_fraccion self
   end
 
+
+  def multiplicar_con_fraccion(un_multiplicador)
+	Fraccion.dividir (@numerador*un_multiplicador.numerador), (@denominador*un_multiplicador.denominador)
+  end
+
+  def multiplicar_con_entero(un_multiplicador)
+  	Fraccion.dividir (numerador * un_multiplicador), denominador
+  end
+
   def *(un_multiplicador)
-    if un_multiplicador.class == Fraccion
-      (@numerador*un_multiplicador.numerador)/(@denominador*un_multiplicador.denominador)
-    elsif un_multiplicador.class == Entero
-      Fraccion.dividir (numerador * un_multiplicador), denominador
-    end
+  	un_multiplicador.multiplicar_con_fraccion self
+  end
+
+  def dividir_con_fraccion(un_dividendo)
+  	Fraccion.dividir (un_dividendo.numerador*self.denominador), (un_dividendo.denominador*self.numerador)
+  end
+
+  def dividir_con_entero(un_dividendo)
+      Fraccion.dividir un_dividendo*self.denominador, self.numerador
   end
 
   def /(un_divisor)
-    un_dividendo = self
-    if un_divisor.class == Fraccion
-      Fraccion.dividir (un_dividendo.numerador*un_divisor.denominador), (un_dividendo.denominador*un_divisor.numerador)
-    elsif un_divisor.class == Entero
-      Fraccion.dividir numerador, (denominador*un_divisor)
-    end
+  	un_divisor.dividir_con_fraccion self #paso el dividendo
   end
 
   def self.dividir(un_dividendo,un_divisor)
