@@ -15,7 +15,7 @@ class Stack
 
   def pop
     top_object_to_return = @stack.top
-    @stack = @stack.stack
+    @stack = @stack.pop
     @size = @size - 1
     top_object_to_return
   end

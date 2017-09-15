@@ -15,7 +15,7 @@ class StackNoVacia
     @top_object
   end
 
-  def stack
+  def pop
     @stack
   end
 

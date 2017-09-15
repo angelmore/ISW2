@@ -16,20 +16,12 @@ class StackVacia
     raise self.class.stack_empty_error_description
   end
 
-  def stack
-    self
-  end
-
   def empty?
     true
   end
 
   def self.stack_empty_error_description
     'Operacion no permitida en pila vacia'
-  end
-
-  def should_implement
-    raise 'Should be implemented'
   end
 
 end
