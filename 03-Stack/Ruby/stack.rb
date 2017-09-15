@@ -27,7 +27,7 @@ class Stack
   end
 
   def self.stack_empty_error_description
-    should_implement
+    'Operacion no permitida en pila vacia'
   end
 
   def should_implement

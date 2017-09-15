@@ -1,6 +1,6 @@
 require './stack'
 
-class StackNoVacia < Stack
+class StackNoVacia
 
   def initialize(a_stack, an_object)
     @stack = a_stack
@@ -26,7 +26,7 @@ class StackNoVacia < Stack
   end
 
   def size
-    should_implement
+    1
   end
 
   def self.stack_empty_error_description
