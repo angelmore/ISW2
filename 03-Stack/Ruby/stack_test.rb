@@ -49,9 +49,18 @@ class NumberTest < Minitest::Test
 
     assert_equal secondPushedObject,stack.pop
     assert_equal firstPushedObject,stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+    # puts stack.pop
+
     assert stack.empty?
   end
-
+  #
   def test_06_top_returns_last_pushed_object
 
     stack = Stack.new
@@ -60,7 +69,7 @@ class NumberTest < Minitest::Test
 
     assert_equal firstPushedObject,stack.top
   end
-
+  
   def test_07_top_does_not_remove_object_from_stack
 
     stack = Stack.new
@@ -71,6 +80,7 @@ class NumberTest < Minitest::Test
     stack.top
     assert_equal 1,stack.size
   end
+
 
   def test_08_can_not_pop_when_there_are_no_objects_in_the_stack
 

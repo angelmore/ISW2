@@ -7,34 +7,19 @@ class StackNoVacia
     @top_object = an_object
   end
 
-  def push(an_object)
-    @stack = StackNoVacia.new @stack, an_object
-  end
-
-  def pop
-    top = @stack.top_object
-    @stack = @stack.stack
-    top
+  def push(an_object, a_stack)
+    StackNoVacia.new a_stack, an_object
   end
 
   def top
-    @stack.top_object
+    @top_object
+  end
+
+  def stack
+    @stack
   end
 
   def empty?
     false
   end
-
-  def size
-    1
-  end
-
-  def self.stack_empty_error_description
-    should_implement
-  end
-
-  def should_implement
-    raise 'Should be implemented'
-  end
-
-  end
+end
