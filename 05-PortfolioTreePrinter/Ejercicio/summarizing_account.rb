@@ -16,4 +16,8 @@ class SummarizingAccount
   def transactions
     self.should_implement
   end
+
+  def account_tree(account_names)
+    self.should_implement
+  end
 end

@@ -8,4 +8,13 @@ class Withdraw < Transaction
   def value
     @value
   end
+
+  def affect_balance(balance)
+    balance - value
+  end
+
+  def summary_line
+    "Extracción por #{value}"
+  end
+
 end

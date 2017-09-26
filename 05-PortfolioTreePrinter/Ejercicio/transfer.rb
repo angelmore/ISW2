@@ -1,13 +1,25 @@
-require './transaction'
+require './deposit_from_transfer'
+require './withdraw_from_transfer'
 
 class Transfer
   def self.register(amount,fromAccount,toAccount)
-    Transfer.new DepositFromTransfer.register_for_on(amount, fromAccount, toAccount), Withdraw.register_for_on(amount, fromAccount, toAccount)
+    Transfer.new amount, fromAccount, toAccount
   end
 
-  def initialize(deposit, withdraw)
-    @deposit = deposit
-    @withdraw = withdraw
+  def initialize(amount, fromAccount, toAccount)
+    @value = amount
+    @fromAccount = fromAccount
+    @toAccount = toAccount
+    @deposit = DepositFromTransfer.register_for_on(amount, self)
+    @withdraw = WithdrawFromTransfer.register_for_on(amount, self)
+  end
+
+  def fromAccount
+    @fromAccount
+  end
+
+  def toAccount
+    @toAccount
   end
 
   def deposit_leg
@@ -19,7 +31,7 @@ class Transfer
   end
 
   def value
-    @deposit.value
+    @value
   end
 
 end

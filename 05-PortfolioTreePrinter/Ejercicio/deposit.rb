@@ -10,4 +10,12 @@ class Deposit < Transaction
     @value
   end
 
+  def affect_balance(balance)
+    balance + value
+  end
+
+  def summary_line
+    "Depósito por #{value}"
+  end
+
 end
