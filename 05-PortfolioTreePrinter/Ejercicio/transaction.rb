@@ -15,7 +15,7 @@ class Transaction
   def affect_balance(balance)
     self.should_implement
   end
-
+  
   def summary_line
     ""
   end

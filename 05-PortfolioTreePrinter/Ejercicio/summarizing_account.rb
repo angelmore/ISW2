@@ -20,4 +20,8 @@ class SummarizingAccount
   def account_tree(account_names)
     self.should_implement
   end
+
+  def accounts
+    self.should_implement
+  end
 end

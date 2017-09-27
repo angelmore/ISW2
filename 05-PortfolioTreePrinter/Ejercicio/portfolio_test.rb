@@ -4,6 +4,12 @@ require './transfer'
 require './certificate_of_deposit'
 require './receptive_account'
 require './portfolio'
+require './summary_lines'
+require './balance'
+require './transfer_net'
+require './investment_net'
+require './investment_earnings'
+require './account_tree'
 require 'minitest/autorun'
 require 'minitest/reporters'
 
@@ -252,7 +258,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def account_summary_lines(fromAccount)
-    fromAccount.account_summary_lines
+    SummaryLines.new(fromAccount).compute
   end
 
   def test_20ShouldBeAbleToBeQueryTransferNet
@@ -269,7 +275,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def account_transfer_net(account)
-    account.account_transfer_net
+    TransferNet.new(account).compute
   end
 
   def test_21CertificateOfDepositShouldWithdrawInvestmentValue
@@ -286,7 +292,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def investment_net(account)
-    account.investment_net
+    InvestmentNet.new(account).compute
   end
 
   def test_22ShouldBeAbleToQueryInvestmentEarnings
@@ -301,7 +307,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def investment_earnings(account)
-    account.investment_earnings
+    InvestmentEarnings.new(account).compute
   end
 
   def test_23AccountSummaryShouldWorkWithCertificateOfDeposit
@@ -361,7 +367,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def portfolio_tree_of(portfolio,accountNames)
-    portfolio.account_tree(accountNames)
+    AccountTree.new(portfolio, accountNames).compute
   end
 
   def test_26ReversePortfolioTreePrinter
@@ -379,7 +385,6 @@ class PortfolioTest < Minitest::Test
     accountNames[account3] = "account3"
 
     lines = self.reverse_portfolio_tree_of(composedPortfolio, accountNames)
-    puts lines
 
     assert_equal(5, lines.size)
     assert_equal(" account3", lines[0])
@@ -391,7 +396,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def reverse_portfolio_tree_of(portfolio,accountNames)
-    portfolio.reverse_account_tree(accountNames)
+    AccountTree.new(portfolio, accountNames).compute.reverse
   end
 
 end

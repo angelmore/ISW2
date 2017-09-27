@@ -41,13 +41,8 @@ class Portfolio < SummarizingAccount
     }
   end
 
-  def account_tree(account_names)
-    @accounts.inject([account_names[self]]) { |tree, account |
-      tree.concat(account.account_tree(account_names).map { |account_name| " #{account_name}" })
-    }
+  def accounts
+    @accounts
   end
 
-  def reverse_account_tree(account_names)
-    account_tree(account_names).reverse
-  end
 end
