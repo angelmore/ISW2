@@ -1,13 +1,25 @@
 require './compute_transaction_operation'
 
 class SummaryLines < ComputeTransactionOperation
-  def initialize(account)
-    @account = account
+
+  def visitDepositFromTransfer(aDepositFromTransfer)
+    "Transferencia por #{aDepositFromTransfer.value}"
   end
 
-  def compute
-    @account.transactions.inject([]) { |summary_lines, transaction|
-      summary_lines << transaction.summary_line
-    }
+  def visitDeposit(aDeposit)
+    "Depósito por #{aDeposit.value}"
   end
+
+  def visitWithdrawFromTransfer(aWithdrawFromTransfer)
+  	"Transferencia por #{-aWithdrawFromTransfer.value}"
+  end
+
+  def visitWithdraw(aWithdraw)
+    "Extracción por #{aWithdraw.value}"
+  end
+
+  def visitCertificateOfDeposit(aCertificateOfDeposit)
+    "Plazo fijo por #{aCertificateOfDeposit.capital} durante #{aCertificateOfDeposit.days} días a una tna de #{aCertificateOfDeposit.tna}"
+  end  
+
 end

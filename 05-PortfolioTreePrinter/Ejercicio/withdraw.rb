@@ -1,6 +1,7 @@
 require './transaction'
 
 class Withdraw < Transaction
+
   def initialize(value)
     @value = value
   end
@@ -13,8 +14,8 @@ class Withdraw < Transaction
     balance - value
   end
 
-  def summary_line
-    "Extracción por #{value}"
+  def accept(visitor)
+    visitor.visitWithdraw(self)
   end
 
 end

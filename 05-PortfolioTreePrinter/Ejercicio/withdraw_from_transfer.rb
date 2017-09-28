@@ -1,14 +1,15 @@
 require './transaction'
 
 class WithdrawFromTransfer < Transaction
+
+  def initialize(transfer)
+    @transfer = transfer
+  end
+
   def self.register_for_on(amount, transfer)
     transaction = self.new(transfer)
     transfer.fromAccount.register(transaction)
     transaction
-  end
-
-  def initialize(transfer)
-    @transfer = transfer
   end
 
   def transfer_amount
@@ -27,7 +28,7 @@ class WithdrawFromTransfer < Transaction
     balance - value
   end
 
-  def summary_line
-    "Transferencia por #{-value}"
+  def accept(visitor)
+    visitor.visitWithdrawFromTransfer(self)
   end
 end

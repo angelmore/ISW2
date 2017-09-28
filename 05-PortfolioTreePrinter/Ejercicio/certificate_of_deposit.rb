@@ -29,16 +29,8 @@ class CertificateOfDeposit < Transaction
     balance - capital
   end
 
-  def investment_net
-    capital
-  end
-
-  def investment_earning
-    capital * (tna / 360) * days
-  end
-
-  def summary_line
-    "Plazo fijo por #{capital} durante #{days} días a una tna de #{tna}"
+  def accept(visitor)
+    visitor.visitCertificateOfDeposit(self)
   end
 
 end

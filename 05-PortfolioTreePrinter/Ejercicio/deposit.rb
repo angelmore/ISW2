@@ -14,8 +14,8 @@ class Deposit < Transaction
     balance + value
   end
 
-  def summary_line
-    "Depósito por #{value}"
+  def accept(visitor)
+    visitor.visitDeposit(self)
   end
 
 end

@@ -1,13 +1,25 @@
 require './compute_transaction_operation'
 
 class InvestmentEarnings < ComputeTransactionOperation
-  def initialize(account)
-    @account = account
+
+  def visitDepositFromTransfer(aDepositFromTransfer)
+  	0
   end
 
-  def compute
-    @account.transactions.inject(0) { |investment_earning, transaction|
-      investment_earning + transaction.investment_earning
-    }
+  def visitDeposit(aDeposit)
+  	0
   end
+
+  def visitWithdrawFromTransfer(aWithdrawFromTransfer)
+  	0
+  end
+
+  def visitWithdraw(aWithdraw)
+  	0
+  end
+
+  def visitCertificateOfDeposit(aCertificateOfDeposit)
+    aCertificateOfDeposit.capital * (aCertificateOfDeposit.tna / 360) * aCertificateOfDeposit.days
+  end
+
 end

@@ -28,8 +28,8 @@ class DepositFromTransfer < Transaction
     balance + value
   end
 
-  def summary_line
-    "Transferencia por #{value}"
+  def accept(visitor)
+    visitor.visitDepositFromTransfer(self)
   end
 
 end

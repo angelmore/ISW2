@@ -1,13 +1,25 @@
 require './compute_transaction_operation'
 
 class TransferNet < ComputeTransactionOperation
-  def initialize(account)
-    @account = account
+
+  def visitDepositFromTransfer(aDepositFromTransfer)
+  	aDepositFromTransfer.value
   end
 
-  def compute
-    @account.transactions.inject(0) { |transfer_net, transaction|
-      transfer_net + transaction.transfer_amount
-    }
+  def visitDeposit(aDeposit)
+  	0
   end
+
+  def visitWithdrawFromTransfer(aWithdrawFromTransfer)
+  	-aWithdrawFromTransfer.value
+  end
+
+  def visitWithdraw(aWithdraw)
+  	0
+  end
+
+  def visitCertificateOfDeposit(aCertificateOfDeposit)
+    0
+  end  
+
 end
