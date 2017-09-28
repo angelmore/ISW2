@@ -1,6 +1,6 @@
-require './compute_transaction_operation'
+require './compute_operation'
 
-class InvestmentNet < ComputeTransactionOperation
+class InvestmentNet < ComputeOperation
 
   def visitDepositFromTransfer(aDepositFromTransfer)
   	0

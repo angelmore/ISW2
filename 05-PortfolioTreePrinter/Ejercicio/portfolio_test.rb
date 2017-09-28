@@ -4,10 +4,10 @@ require './transfer'
 require './certificate_of_deposit'
 require './receptive_account'
 require './portfolio'
-require './summary_lines'
-require './transfer_net'
-require './investment_net'
-require './investment_earnings'
+require './account_summary_lines'
+require './account_transfer_net'
+require './account_investment_net'
+require './account_investment_earnings'
 require './account_tree'
 require 'minitest/autorun'
 require 'minitest/reporters'
@@ -257,7 +257,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def account_summary_lines(fromAccount)
-    fromAccount.summary_lines
+    AccountSummaryLines.new(fromAccount).compute
   end
 
   def test_20ShouldBeAbleToBeQueryTransferNet
@@ -274,7 +274,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def account_transfer_net(account)
-    account.transfer_net
+    AccountTransferNet.new(account).compute
   end
 
   def test_21CertificateOfDepositShouldWithdrawInvestmentValue
@@ -291,7 +291,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def investment_net(account)
-    account.investment_net
+    AccountInvestmentNet.new(account).compute
   end
 
   def test_22ShouldBeAbleToQueryInvestmentEarnings
@@ -306,7 +306,7 @@ class PortfolioTest < Minitest::Test
   end
 
   def investment_earnings(account)
-    account.investment_earnings
+    AccountInvestmentEarnings.new(account).compute
   end
 
   def test_23AccountSummaryShouldWorkWithCertificateOfDeposit

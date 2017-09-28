@@ -1,6 +1,6 @@
-require './compute_transaction_operation'
+require './compute_operation'
 
-class AccountTree < ComputeTransactionOperation
+class AccountTree < ComputeOperation
   def initialize(account, account_names)
     @account = account
     @account_names = account_names

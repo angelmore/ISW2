@@ -1,6 +1,6 @@
-require './compute_transaction_operation'
+require './compute_operation'
 
-class SummaryLines < ComputeTransactionOperation
+class SummaryLines
 
   def visitDepositFromTransfer(aDepositFromTransfer)
     "Transferencia por #{aDepositFromTransfer.value}"
@@ -20,6 +20,6 @@ class SummaryLines < ComputeTransactionOperation
 
   def visitCertificateOfDeposit(aCertificateOfDeposit)
     "Plazo fijo por #{aCertificateOfDeposit.capital} durante #{aCertificateOfDeposit.days} días a una tna de #{aCertificateOfDeposit.tna}"
-  end  
+  end
 
 end
