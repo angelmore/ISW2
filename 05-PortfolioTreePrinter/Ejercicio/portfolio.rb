@@ -45,4 +45,8 @@ class Portfolio < SummarizingAccount
     @accounts
   end
 
+  def accept(visitor, m)
+    visitor.visit_portfolio(self, m)
+  end
+
 end

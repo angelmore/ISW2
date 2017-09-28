@@ -36,4 +36,7 @@ class ReceptiveAccount < SummarizingAccount
     [account_names[self]]
   end
 
+  def accept(visitor, m)
+    visitor.visit_receptive_account(self, m)
+  end
 end

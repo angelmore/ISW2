@@ -1,4 +1,5 @@
 require './compute_operation'
+require './account_tree_visitor'
 
 class AccountTree < ComputeOperation
   def initialize(account, account_names)
@@ -7,8 +8,6 @@ class AccountTree < ComputeOperation
   end
 
   def compute
-    @account.accounts.inject([@account_names[@account]]) { |tree, acc |
-      tree.concat(AccountTree.new(acc, @account_names).compute.map { |account_name| " #{account_name}" })
-    }
+    @account.accept(AccountTreeVisitor.new, @account_names)
   end
 end
