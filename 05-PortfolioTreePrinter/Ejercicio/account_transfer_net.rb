@@ -7,8 +7,8 @@ class AccountTransferNet < ComputeOperation
   end
 
   def compute
-    @account.transactions.inject(0) { |investment_net, transaction|
-      investment_net + transaction.accept(TransferNet.new)
+    @account.transactions.inject(0) { |transfer_net, transaction|
+      transfer_net + transaction.accept(TransferNet.new)
     }
   end
 end

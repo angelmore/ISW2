@@ -36,29 +36,4 @@ class ReceptiveAccount < SummarizingAccount
     [account_names[self]]
   end
 
-  def summary_lines
-    @transactions.inject([]) { |summary_lines, transaction|
-      summary_lines << transaction.accept(SummaryLines.new)
-    }
-  end
-
-  def transfer_net
-    @transactions.inject(0) { |transfer_net, transaction|
-      transfer_net + transaction.accept(TransferNet.new)
-    }
-  end
-
-  def investment_net
-    @transactions.inject(0) { |investment_net, transaction|
-      investment_net + transaction.accept(InvestmentNet.new)
-    }
-  end
-
-
-  def investment_earnings
-    @transactions.inject(0) { |investment_earning, transaction|
-      investment_earning + transaction.accept(InvestmentEarnings.new)
-    }
-  end
-
 end
