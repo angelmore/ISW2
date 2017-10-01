@@ -1,19 +1,15 @@
 require './motor'
+require './elevator_opened'
 
 class CabinDoor
 
   CLOSED_SENSOR_MALFUNCTION = 'Funcionamiento incorrecto del sensor de puerta cerrada'
   OPENED_SENSOR_MALFUNCTION = 'Funcionamiento incorrecto del sensor de puerta abierta'
 
-  OPENING = 1
-  CLOSING = 2
-  OPENED = 3
-  CLOSED = 4
-
   def initialize(motor,bell)
     @motor = motor
     @bell = bell
-    @state = OPENED
+    @state = ElevatorOpened.new self
   end
 
   def should_implement
@@ -22,19 +18,23 @@ class CabinDoor
 
   #Testing state
   def is_opened?
-    @state == OPENED
+    @state.class.name == 'ElevatorOpened'
   end
 
   def is_closing?
-    @state == CLOSING
+    @state.class.name == 'ElevatorClosing'
   end
 
   def is_opening?
-    @state == OPENING
+    @state.class.name == 'ElevatorOpening'
   end
 
   def is_closed?
-    @state == CLOSED
+    @state.class.name == 'ElevatorClosed'
+  end
+
+  def motor
+    @motor
   end
 
   #Campana
@@ -44,32 +44,22 @@ class CabinDoor
 
   #Boton de cerrar
   def close_button_pressed
-    @motor.stop unless @motor.is_stopped?
-    @motor.start_moving_clockwise
-    @state = CLOSING
-    ring
+    @state = @state.closing
   end
 
   #Boton de abrir
   def open_button_pressed
-    @motor.stop unless @motor.is_stopped?
-    @motor.start_moving_counter_clockwise
-    @state = OPENING
-    ring
+    @state = @state.opening
   end
 
   #Sensor de puerta cerrada
   def closed_sensor_activated
-    raise Exception, CLOSED_SENSOR_MALFUNCTION unless is_closing?
-    @state = CLOSED
-    @motor.stop
+    @state = @state.closed
   end
 
   #Sensor de puerta abierta
   def opened_sensor_activated
-    raise Exception, OPENED_SENSOR_MALFUNCTION unless is_opening?
-    @state = OPENED
-    @motor.stop
+    @state = @state.opened
   end
 
   #Motor
