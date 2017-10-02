@@ -8,7 +8,7 @@ class ElevatorClosed < ElevatorState
   end
 
   def opening
-    @cabin_door.motor.start_moving_counter_clockwise
+    @cabin_door.opening_when_closed
     @cabin_door.ring
     ElevatorOpening.new @cabin_door
   end

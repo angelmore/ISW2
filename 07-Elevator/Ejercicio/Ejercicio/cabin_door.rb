@@ -33,13 +33,31 @@ class CabinDoor
     @state.class.name == 'ElevatorClosed'
   end
 
-  def motor
-    @motor
-  end
-
   #Campana
   def ring
     @bell.ring
+  end
+
+  def closing_when_opened
+    @motor.start_moving_clockwise
+  end
+
+  def opening_when_closing
+    @motor.stop
+    @motor.start_moving_counter_clockwise
+  end
+
+  def closing_when_opening
+    @motor.stop
+    @motor.start_moving_clockwise
+  end
+
+  def stop_motor
+    @motor.stop
+  end
+
+  def opening_when_closed
+    @motor.start_moving_counter_clockwise
   end
 
   #Boton de cerrar

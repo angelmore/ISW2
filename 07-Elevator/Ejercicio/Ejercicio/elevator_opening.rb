@@ -4,8 +4,7 @@ require './elevator_closing'
 
 class ElevatorOpening < ElevatorState
   def closing
-    @cabin_door.motor.stop
-    @cabin_door.motor.start_moving_clockwise
+    @cabin_door.closing_when_opening
     @cabin_door.ring
     ElevatorClosing.new @cabin_door
   end
@@ -16,7 +15,7 @@ class ElevatorOpening < ElevatorState
   end
 
   def opened
-    @cabin_door.motor.stop
+    @cabin_door.stop_motor
     @cabin_door.ring
     ElevatorOpened.new @cabin_door
   end
