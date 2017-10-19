@@ -99,7 +99,7 @@ class CabinDoor
   #Sensor de puerta cerrada
   def closed_sensor_activated
     @state.closed_sensor_activated
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def closed_sensor_activated_when_closing
@@ -122,7 +122,7 @@ class CabinDoor
   #Sensor de puerta abierta
   def opened_sensor_activated
     @state.opened_sensor_activated
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def opened_sensor_activated_when_opening
@@ -161,16 +161,20 @@ class CabinDoor
 
   private
 
+  def inform_event
+    @subscriptors.each { |subs| @state.accept(subs) }
+  end
+
   def start_closing_door
     @motor.start_moving_clockwise
     change_state_to_closing
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def start_opening_door
     @motor.start_moving_counter_clockwise
     change_state_to_opening
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def change_state_to_closing

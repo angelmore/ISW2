@@ -79,19 +79,23 @@ class Motor
 
   private
 
+  def inform_event
+    @subscriptors.each { |subs| @state.accept(subs) }
+  end
+
   def change_state_to_stopped
     change_state_to(MotorStopped.new(self))
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def change_state_to_moving_clockwise
     change_state_to(MotorMovingClockwise.new(self))
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def change_state_to_moving_counter_clockwise
     change_state_to(MotorMovingCounterClockwise.new(self))
-    @subscriptors.each { |subs| @state.accept(subs) }
+    inform_event
   end
 
   def change_state_to(new_state)
