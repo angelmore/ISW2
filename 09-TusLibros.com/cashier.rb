@@ -1,16 +1,18 @@
 require './cart'
-require './credit_card_expiration_date'
+require './credit_card'
 
 class Cashier
-  def self.checkout(cart, credit_card_expiration_date)
-    raise Exception, Cashier.invalid_cart_error_description if cart.empty?
-    raise Exception, Cashier.credit_card_expired_error_description if Cashier.expired_credit_card?(credit_card_expiration_date)
+  def initialize(sales_book, cart, credit_card)
+    @sales_book = sales_book
+    @cart = cart
+    @credit_card = credit_card
   end
 
-  def self.expired_credit_card?(credit_card_expiration_date)
-    return true if Time.now.year > credit_card_expiration_date.year
-    return true if Time.now.year == credit_card_expiration_date.year && Time.now.month > credit_card_expiration_date.month
-    false
+  def checkout
+    raise Exception, Cashier.invalid_cart_error_description if @cart.empty?
+    raise Exception, Cashier.credit_card_expired_error_description if @credit_card.is_expired?(Time.now)
+
+
   end
 
   def self.invalid_cart_error_description
