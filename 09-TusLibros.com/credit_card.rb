@@ -22,15 +22,9 @@ class CreditCard
   def self.invalid_owner_name_error_description
     'Invalid owner name'
   end
+
 end
 
-#que la tarjeta no figure como robada
-#que se pueda debitar
-#que no se pueda debitar cuando no haya saldo
 
 #____
-#-que el carrito reciba el catalogo con los precios
-#-que el checkout sume y le pida al catalogo del carrito los precios
-#-que el checkout verifique que el nombre tenga menos de 15 caracteres y llame al merchant processor con la tarjeta y el saldo
 #-que el checkout agregue la compra cuando el caso sea valido
-#-que el merchant processor se fije si la tarjeta tiene saldo suficiente y debite

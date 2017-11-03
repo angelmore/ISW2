@@ -28,4 +28,16 @@ class Factory
   def self.expired_credit_card
     CreditCard.new '9' * 16, 'Pepito Casimiro', Factory.expired_month_year
   end
+
+  def self.user_id_1_password_pepito
+    { 1 => 'pepito' }
+  end
+
+  def self.empty_rest_interface
+    RestInterface.new Hash.new, Array.new
+  end
+
+  def self.rest_interface_with_user_and_catalog
+    RestInterface.new Factory.user_id_1_password_pepito, Factory.isbns_1_2_prices_5_10
+  end
 end

@@ -8,13 +8,18 @@ class Cashier
     @credit_card = credit_card
   end
 
-  def checkout
+  def checkout(merchant_processor)
     raise Exception, Cashier.invalid_cart_error_description if @cart.empty?
     raise Exception, Cashier.credit_card_expired_error_description if @credit_card.is_expired?(Time.now)
 
-    @cart.list.inject(0) do |total_price, isbn|
+    total = @cart.list.inject(0) do |total_price, isbn|
       @cart.catalog[isbn] + total_price
     end
+
+    merchant_processor.debit(@credit_card, total)
+
+    sales_book << total
+    total
   end
 
   def sales_book
@@ -28,4 +33,5 @@ class Cashier
   def self.credit_card_expired_error_description
     'The credit card cannot be expired'
   end
+
 end
