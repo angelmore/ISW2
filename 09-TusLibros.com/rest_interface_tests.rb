@@ -50,7 +50,19 @@ class RestInterfaceTests < Minitest::Test
     assert_equal rest_interface.list_cart(cart_id), [1]
   end
 
-  def test_05_cannot_list_nonexistent_cart
+  def test_05_a_book_cannot_be_added_to_a_nonexisting_cart
+    rest_interface = Factory.rest_interface_with_user_and_catalog
+    client_id = 1
+    client_password = 'pepito'
+    cart_id = rest_interface.create_cart(client_id, client_password)
+    exception = assert_raises Exception do
+      rest_interface.add_to_cart(cart_id + 1, 1, 1)
+    end
+
+    assert_equal exception.message, RestInterface.nonexistent_cart_error_description
+  end
+
+  def test_06_cannot_list_nonexistent_cart
     rest_interface = Factory.rest_interface_with_user_and_catalog
 
     exception = assert_raises Exception do
