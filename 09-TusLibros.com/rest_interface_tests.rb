@@ -160,7 +160,7 @@ class RestInterfaceTests < Minitest::Test
     self
   end
 
-  def -(time)
+  def -(_)
     @seconds
   end
 
