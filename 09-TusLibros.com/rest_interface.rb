@@ -21,20 +21,19 @@ class RestInterface
   end
 
   def add_to_cart(cart_id, isbn, quantity)
-    raise Exception, RestInterface.nonexistent_cart_error_description unless existing_cart? cart_id
-    raise Exception, RestInterface.expired_cart_error_description if expired_cart? cart_id
+    validate_cart(cart_id)
 
     @carts[cart_id].add(isbn, quantity)
   end
 
   def list_cart(cart_id)
-    raise Exception, RestInterface.nonexistent_cart_error_description unless existing_cart? cart_id
+    validate_cart(cart_id)
 
     @carts[cart_id].list
   end
 
   def checkout(cart_id, credit_card)
-    raise Exception, RestInterface.nonexistent_cart_error_description unless existing_cart? cart_id
+    validate_cart(cart_id)
   end
 
   def list_of_purchases(client_id, password)
@@ -74,6 +73,11 @@ class RestInterface
 
   def expired_cart?(cart_id)
     (@carts_time[cart_id] - @clock.now) >= 30 * 60
+  end
+
+  def validate_cart(cart_id)
+    raise Exception, RestInterface.nonexistent_cart_error_description unless existing_cart? cart_id
+    raise Exception, RestInterface.expired_cart_error_description if expired_cart? cart_id
   end
 
   def next_cart_id

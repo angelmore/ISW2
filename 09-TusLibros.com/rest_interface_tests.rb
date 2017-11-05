@@ -30,6 +30,7 @@ class RestInterfaceTests < Minitest::Test
   end
 
   def test_03_a_created_new_cart_is_empty
+    @seconds = 1
     rest_interface = Factory.rest_interface_with_user_and_catalog self
     cart_id = Factory.create_cart(rest_interface)
     assert_equal rest_interface.list_cart(cart_id), []
@@ -105,13 +106,27 @@ class RestInterfaceTests < Minitest::Test
     assert_equal exception.message, RestInterface.invalid_password_error_description
   end
 
-  def test_11_cannot_do_actions_on_expired_cart
+  def test_11_cannot_add_book_on_expired_cart
     @seconds = 31 * 60
     rest_interface = Factory.rest_interface_with_user_and_catalog self
     cart_id = Factory.create_cart(rest_interface)
 
     exception = assert_raises Exception do
       rest_interface.add_to_cart(cart_id, 1, 1)
+    end
+
+    assert_equal exception.message, RestInterface.expired_cart_error_description
+  end
+
+  def test_12_cannot_list_items_of_expired_cart
+    @seconds = 1
+    rest_interface = Factory.rest_interface_with_user_and_catalog self
+    cart_id = Factory.create_cart(rest_interface)
+    rest_interface.add_to_cart(cart_id, 1, 1)
+    @seconds = 31 * 60
+
+    exception = assert_raises Exception do
+      rest_interface.list_cart(cart_id)
     end
 
     assert_equal exception.message, RestInterface.expired_cart_error_description
