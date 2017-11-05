@@ -33,12 +33,12 @@ class Factory
     { 1 => 'pepito' }
   end
 
-  def self.empty_rest_interface
-    RestInterface.new Hash.new, Array.new
+  def self.empty_rest_interface(clock)
+    RestInterface.new Hash.new, Array.new, clock
   end
 
-  def self.rest_interface_with_user_and_catalog
-    RestInterface.new Factory.a_user_with_a_password, Factory.isbns_1_2_prices_5_10
+  def self.rest_interface_with_user_and_catalog(clock)
+    RestInterface.new Factory.a_user_with_a_password, Factory.isbns_1_2_prices_5_10, clock
   end
 
   def self.create_cart(rest_interface)
