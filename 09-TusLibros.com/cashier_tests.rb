@@ -63,7 +63,7 @@ class CashierTests < Minitest::Test
     assert_empty cashier.sales_book
   end
 
-  def test_05_cannot_checkout_with_stolen_credit_card
+  def test_05_cannot_checkout_with_credit_card_without_cash
     @debit = Proc.new { raise Exception, debit_no_cash_credit_card_error }
     cart = Cart.new Factory.isbn_prices(1)
     cart.add(1, 1)

@@ -29,7 +29,7 @@ class Factory
     CreditCard.new '9' * 16, 'Pepito Casimiro', Factory.expired_month_year
   end
 
-  def self.user_id_1_password_pepito
+  def self.a_user_with_a_password
     { 1 => 'pepito' }
   end
 
@@ -38,6 +38,12 @@ class Factory
   end
 
   def self.rest_interface_with_user_and_catalog
-    RestInterface.new Factory.user_id_1_password_pepito, Factory.isbns_1_2_prices_5_10
+    RestInterface.new Factory.a_user_with_a_password, Factory.isbns_1_2_prices_5_10
+  end
+
+  def self.create_cart(rest_interface)
+    client_id = Factory.a_user_with_a_password.keys.first
+    client_password = Factory.a_user_with_a_password[client_id]
+    cart_id = rest_interface.create_cart(client_id, client_password)
   end
 end
