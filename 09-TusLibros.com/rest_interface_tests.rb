@@ -132,6 +132,20 @@ class RestInterfaceTests < Minitest::Test
     assert_equal exception.message, RestInterface.expired_cart_error_description
   end
 
+  def test_13_cannot_checkout_expired_cart
+    @seconds = 1
+    rest_interface = Factory.rest_interface_with_user_and_catalog self
+    cart_id = Factory.create_cart(rest_interface)
+    rest_interface.add_to_cart(cart_id, 1, 1)
+    @seconds = 31 * 60
+
+    exception = assert_raises Exception do
+      rest_interface.checkout(cart_id, Factory.valid_credit_card)
+    end
+
+    assert_equal exception.message, RestInterface.expired_cart_error_description
+  end
+
   # def test_11_list_of_purchases_includes_a_book_of_a_cart_after_checkout
   #   rest_interface = Factory.rest_interface_with_user_and_catalog self
   #   client_id = Factory.a_user_with_a_password.keys.first
