@@ -24,7 +24,3 @@ class CreditCard
   end
 
 end
-
-
-#____
-#-que el checkout agregue la compra cuando el caso sea valido

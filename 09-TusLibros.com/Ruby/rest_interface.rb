@@ -1,21 +1,18 @@
 require './cashier'
 
 class RestInterface
+  A_MINUTE = 30 * 60
+  
   def initialize(clients, catalog, clock, merchant_processor)
     @clients = clients
     @catalog = catalog
     @carts = {}
     @last_cart_id = 0
     @last_transaction_id = 0
-    @sales_book_by_clientId = {}
+    @sales_book_by_clientId = Hash.new({"isbn_amount" => Hash.new(0), "total" => 0})
     @carts_time = {}
     @clock = clock
     @merchant_processor = merchant_processor
-
-  end
-
-  def borrar
-    @sales_book_by_clientId
   end
 
   def create_cart(client_id, password)
@@ -42,7 +39,6 @@ class RestInterface
   def checkout(cart_id, credit_card)
     validate_cart(cart_id)
     clientIdOfTheCart = @carts[cart_id]["clientId"]
-    @sales_book_by_clientId[clientIdOfTheCart] = [] if !@sales_book_by_clientId.keys.include? clientIdOfTheCart  
     cashier = Cashier.new @sales_book_by_clientId[clientIdOfTheCart], @carts[cart_id]["cart"], credit_card
     cashier.checkout(@merchant_processor)
     next_transaction_id
@@ -52,14 +48,7 @@ class RestInterface
     raise Exception, RestInterface.nonexistent_client_error_description unless existing_client? client_id
     raise Exception, RestInterface.invalid_password_error_description unless valid_password? client_id, password
   
-    isbns = ""
-    total_amount = @sales_book_by_clientId[client_id].size()
-
-    @sales_book_by_clientId[client_id].each do |isbn|
-      isbns += "#{isbn}|"
-    end
-
-    isbns + "#{total_amount}"
+    @sales_book_by_clientId[client_id]
   end
 
   def self.nonexistent_client_error_description
@@ -93,7 +82,7 @@ class RestInterface
   end
 
   def expired_cart?(cart_id)
-    (@carts_time[cart_id] - @clock.now) >= 30 * 60
+    (@carts_time[cart_id] - @clock.now) >= A_MINUTE
   end
 
   def validate_cart(cart_id)

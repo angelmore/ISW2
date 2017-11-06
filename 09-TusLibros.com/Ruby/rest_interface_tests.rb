@@ -33,7 +33,7 @@ class RestInterfaceTests < Minitest::Test
     @seconds = 1
     rest_interface = Factory.rest_interface_with_clientId_1_and_catalog self, self
     cart_id = Factory.create_cart(rest_interface)
-    assert_equal rest_interface.list_cart(cart_id), []
+    assert_empty rest_interface.list_cart(cart_id)
   end
 
   def test_04_a_book_can_be_added_to_a_existing_cart
@@ -41,7 +41,8 @@ class RestInterfaceTests < Minitest::Test
     rest_interface = Factory.rest_interface_with_clientId_1_and_catalog self, self
     cart_id = Factory.create_cart(rest_interface)
     rest_interface.add_to_cart(cart_id, 1, 1)
-    assert_equal rest_interface.list_cart(cart_id), [1]
+    expectedSalesBook = {1=>1} 
+    assert_equal expectedSalesBook, rest_interface.list_cart(cart_id)
   end
 
   def test_05_a_book_cannot_be_added_to_a_nonexisting_cart
@@ -146,19 +147,6 @@ class RestInterfaceTests < Minitest::Test
     assert_equal exception.message, RestInterface.expired_cart_error_description
   end
 
-  # HAY QUE TESTEAR ALGO DEL CHECKOUT ????
-  # def test_14_can_checkout__cart
-  #   @seconds = 1
-  #   @debit = Proc.new {}
-  #   rest_interface = Factory.rest_interface_with_clientId_1_and_catalog self, self
-  #   cart_id = Factory.create_cart(rest_interface)
-  #   isbn = 1
-  #   rest_interface.add_to_cart(cart_id, isbn, 1)
-  #   rest_interface.checkout(cart_id, Factory.valid_credit_card)
-    
-  # end
-
-
   def test_14_list_of_purchases_includes_all_books_of_a_cart_after_checkout
     @seconds = 1
     @debit = Proc.new {}
@@ -169,7 +157,8 @@ class RestInterfaceTests < Minitest::Test
     rest_interface.add_to_cart(cart_id, 1, 1)
     rest_interface.add_to_cart(cart_id, 2, 3)
     rest_interface.checkout(cart_id, Factory.valid_credit_card)
-    assert_equal "1|2|2|2|4", rest_interface.list_of_purchases(client_id, password)
+    expectedSalesBook = Factory.sales_book_for_isbns_1_2_prices_5_10(1,3,35)
+    assert_equal expectedSalesBook, rest_interface.list_of_purchases(client_id, password)
   end
 
 
@@ -187,7 +176,8 @@ class RestInterfaceTests < Minitest::Test
     cart_id_second_cart = Factory.create_cart(rest_interface)
     rest_interface.add_to_cart(cart_id_second_cart, 2, 2)
     rest_interface.checkout(cart_id_second_cart, credit_card)
-    assert_equal "1|2|2|2|2|2|6", rest_interface.list_of_purchases(client_id, password)
+    expectedSalesBook = Factory.sales_book_for_isbns_1_2_prices_5_10(1,5,55)
+    assert_equal expectedSalesBook, rest_interface.list_of_purchases(client_id, password)
   end
 
   def now

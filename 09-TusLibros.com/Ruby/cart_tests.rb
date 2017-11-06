@@ -61,7 +61,7 @@ class CartTests < Minitest::Test
     quantity = 2
     cart = Cart.new Factory.isbn_prices(isbn)
     cart.add(isbn, quantity)
-    assert_equal cart.list.count(isbn), quantity
+    assert_equal cart.list[isbn], quantity
   end
 
   def test_08_if_a_product_is_added_more_than_once_the_quantities_must_be_summed
@@ -69,7 +69,7 @@ class CartTests < Minitest::Test
     cart = Cart.new Factory.isbn_prices(isbn)
     cart.add(isbn, 1)
     cart.add(isbn, 1)
-    assert_equal cart.list.count(isbn), 2
+    assert_equal cart.list[isbn], 2
   end
 
 end

@@ -14,7 +14,3 @@ class MonthYear
     @year
   end
 end
-
-#que la tarjeta no figure como robada
-#que se pueda debitar
-#que no se pueda debitar cuando no haya saldo

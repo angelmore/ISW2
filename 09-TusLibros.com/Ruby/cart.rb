@@ -1,23 +1,21 @@
 class Cart
   def initialize(catalog)
-    @list = []
+    @isbn_amount = Hash.new(0)
     @catalog = catalog
   end
 
   def empty?
-    @list.empty?
+    @isbn_amount.empty?
   end
 
   def add(isbn, quantity)
     raise Exception, Cart.invalid_isbn_error_description unless @catalog.keys.include?(isbn)
     raise Exception, Cart.invalid_quantity_error_description unless (quantity > 0 && quantity.class == Fixnum)
-    quantity.times do
-      @list << isbn
-    end
+    @isbn_amount[isbn]+= quantity
   end
 
   def list
-    @list
+    @isbn_amount
   end
 
   def catalog

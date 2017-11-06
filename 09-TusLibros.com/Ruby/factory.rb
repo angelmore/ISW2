@@ -41,6 +41,15 @@ class Factory
     RestInterface.new Factory.a_user_with_a_password, Factory.isbns_1_2_prices_5_10, clock, merchant_processor
   end
 
+
+  def self.sales_book_for_isbns_1_2_prices_5_10(cant_isbn_1, cant_isbn_2, total)
+    {"isbn_amount"=>{1=>cant_isbn_1, 2=>cant_isbn_2}, "total"=>total}
+  end
+
+  def self.empty_sales_book
+    {"isbn_amount"=>Hash.new(0), "total"=> 0}
+  end
+
   def self.create_cart(rest_interface)
     client_id = Factory.a_user_with_a_password.keys.first
     client_password = Factory.a_user_with_a_password[client_id]
