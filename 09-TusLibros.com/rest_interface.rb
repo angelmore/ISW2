@@ -1,21 +1,28 @@
 require './cashier'
 
 class RestInterface
-  def initialize(clients, catalog, clock)
+  def initialize(clients, catalog, clock, merchant_processor)
     @clients = clients
     @catalog = catalog
     @carts = {}
     @last_cart_id = 0
-    @sales_book = {}
+    @last_transaction_id = 0
+    @sales_book_by_clientId = {}
     @carts_time = {}
     @clock = clock
+    @merchant_processor = merchant_processor
+
+  end
+
+  def borrar
+    @sales_book_by_clientId
   end
 
   def create_cart(client_id, password)
     raise Exception, RestInterface.nonexistent_client_error_description unless existing_client? client_id
     raise Exception, RestInterface.invalid_password_error_description unless valid_password? client_id, password
 
-    @carts[next_cart_id] = Cart.new @catalog
+    @carts[next_cart_id] = {"cart" => (Cart.new @catalog), "clientId" => client_id}
     @carts_time[@last_cart_id] = @clock.now
     @last_cart_id
   end
@@ -23,22 +30,36 @@ class RestInterface
   def add_to_cart(cart_id, isbn, quantity)
     validate_cart(cart_id)
 
-    @carts[cart_id].add(isbn, quantity)
+    @carts[cart_id]["cart"].add(isbn, quantity)
   end
 
   def list_cart(cart_id)
     validate_cart(cart_id)
 
-    @carts[cart_id].list
+    @carts[cart_id]["cart"].list
   end
 
   def checkout(cart_id, credit_card)
     validate_cart(cart_id)
+    clientIdOfTheCart = @carts[cart_id]["clientId"]
+    @sales_book_by_clientId[clientIdOfTheCart] = [] if !@sales_book_by_clientId.keys.include? clientIdOfTheCart  
+    cashier = Cashier.new @sales_book_by_clientId[clientIdOfTheCart], @carts[cart_id]["cart"], credit_card
+    cashier.checkout(@merchant_processor)
+    next_transaction_id
   end
 
   def list_of_purchases(client_id, password)
     raise Exception, RestInterface.nonexistent_client_error_description unless existing_client? client_id
     raise Exception, RestInterface.invalid_password_error_description unless valid_password? client_id, password
+  
+    isbns = ""
+    total_amount = @sales_book_by_clientId[client_id].size()
+
+    @sales_book_by_clientId[client_id].each do |isbn|
+      isbns += "#{isbn}|"
+    end
+
+    isbns + "#{total_amount}"
   end
 
   def self.nonexistent_client_error_description
@@ -83,4 +104,9 @@ class RestInterface
   def next_cart_id
     @last_cart_id = @last_cart_id + 1
   end
+
+  def next_transaction_id
+    @last_transaction_id = @last_transaction_id + 1
+  end
+
 end

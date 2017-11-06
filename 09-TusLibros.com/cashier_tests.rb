@@ -46,10 +46,33 @@ class CashierTests < Minitest::Test
     sales_book = []
     cashier = Cashier.new(sales_book, cart, Factory.valid_credit_card)
     assert_equal cashier.checkout(self), 35
-    assert !sales_book.empty?
+    assert_equal cart.list, sales_book 
   end
 
-  def test_04_cannot_checkout_with_stolen_credit_card
+  def test_04_checkout_two_cart_for_the_same_client
+    @debit = Proc.new {}
+    sales_book = []
+    creditCard = Factory.valid_credit_card
+
+    firstCart = Cart.new Factory.isbns_1_2_prices_5_10
+    firstCart.add(1, 1)
+    firstCart.add(2, 3)
+    firstCashier = Cashier.new(sales_book, firstCart, creditCard)
+
+
+    secondCart = Cart.new Factory.isbns_1_2_prices_5_10
+    secondCart.add(1, 1)
+    secondCart.add(2, 3)
+	secondCashier = Cashier.new(sales_book, secondCart, creditCard)
+
+    assert_equal firstCashier.checkout(self), 35
+    assert_equal secondCashier.checkout(self), 35
+
+	expectedSalesBook = firstCart.list.concat secondCart.list
+    assert_equal expectedSalesBook, sales_book
+  end
+
+  def test_05_cannot_checkout_with_stolen_credit_card
     @debit = Proc.new { raise Exception, debit_stolen_credit_card_error }
     cart = Cart.new Factory.isbn_prices(1)
     cart.add(1, 1)
@@ -63,7 +86,7 @@ class CashierTests < Minitest::Test
     assert_empty cashier.sales_book
   end
 
-  def test_05_cannot_checkout_with_credit_card_without_cash
+  def test_06_cannot_checkout_with_credit_card_without_cash
     @debit = Proc.new { raise Exception, debit_no_cash_credit_card_error }
     cart = Cart.new Factory.isbn_prices(1)
     cart.add(1, 1)
@@ -76,6 +99,7 @@ class CashierTests < Minitest::Test
     assert_equal debit_no_cash_credit_card_error, exception.message
     assert_empty cashier.sales_book
   end
+
 
   def debit_stolen_credit_card_error
     'The credit card cannot be stolen'

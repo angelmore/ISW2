@@ -18,7 +18,7 @@ class Cashier
 
     merchant_processor.debit(@credit_card, total)
 
-    sales_book << total
+    sales_book.concat @cart.list
     total
   end
 
